@@ -102,4 +102,18 @@ class Version extends \Nabik\Utils\V1\Version {
 		Nabik_Net_Database::DB()->statement( $query );
 	}
 
+	public function update_123() {
+		$option = 'advanced.mobile_possible_meta_keys';
+
+		$meta_keys = Pinova::get_option( $option );
+		$meta_keys = explode( PHP_EOL, strval( $meta_keys ) );
+		$meta_keys = array_map( 'trim', $meta_keys );
+
+		$meta_keys[] = 'digits_phone';
+		$meta_keys[] = 'digits_phone_no';
+
+		$meta_keys = array_unique( array_filter( $meta_keys ) );
+
+		Pinova::set_option( $option, implode( PHP_EOL, $meta_keys ) );
+	}
 }

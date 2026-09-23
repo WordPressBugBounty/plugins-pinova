@@ -895,9 +895,11 @@ class PhoneNumberUtil
     public function getNationalSignificantNumber(PhoneNumber $number): string
     {
         // If leading zero(s) have been set, we prefix this now. Note this is not a national prefix.
+        // Defensively cap the number of leading zeros to avoid OOM from malicious input.
         $nationalNumber = '';
         if ($number->isItalianLeadingZero() && $number->getNumberOfLeadingZeros() > 0) {
-            $zeros = str_repeat('0', $number->getNumberOfLeadingZeros());
+            $numberOfLeadingZeros = min($number->getNumberOfLeadingZeros(), 10);
+            $zeros = str_repeat('0', $numberOfLeadingZeros);
             $nationalNumber .= $zeros;
         }
         $nationalNumber .= $number->getNationalNumber();
@@ -1117,13 +1119,17 @@ class PhoneNumberUtil
     public function format(PhoneNumber $number, PhoneNumberFormat $numberFormat): string
     {
         if ($number->getNationalNumber() === '0' && $number->hasRawInput()) {
-            // Unparseable numbers that kept their raw input just use that.
-            // This is the only case where a number can be formatted as E164 without a
-            // leading '+' symbol (but the original number wasn't parseable anyway).
-            // TODO: Consider removing the 'if' above so that unparseable
-            // strings without raw input format to the empty string instead of "+00"
+            // Unparseable numbers that kept their raw input just use that, unless default country was
+            // specified and the format is E164. In that case, we prepend the raw input with the country
+            // code
             $rawInput = $number->getRawInput();
-            if ($rawInput !== '') {
+
+            if ($rawInput !== '' && $number->hasCountryCode() && $number->getCountryCodeSource() === CountryCodeSource::FROM_DEFAULT_COUNTRY && $numberFormat === PhoneNumberFormat::E164) {
+                $countryCallingCode = $number->getCountryCode();
+                $formattedNumber = $rawInput;
+                $this->prefixNumberWithCountryCallingCode($countryCallingCode, $numberFormat, $formattedNumber);
+                return $formattedNumber;
+            } elseif ($rawInput !== '' || !$number->hasCountryCode()) {
                 return $rawInput;
             }
         }
@@ -1328,6 +1334,30 @@ class PhoneNumberUtil
     }
 
     /**
+     * Checks whether the supplied string contains at least three ASCII letters.
+     */
+    private function hasAtLeastThreeAlphaChars(string $number): bool
+    {
+        $alphaCount = 0;
+        $length = strlen($number);
+
+        for ($i = 0; $i < $length; $i++) {
+            $character = ord($number[$i]);
+
+            if (
+                ($character >= 65 && $character <= 90)
+                || ($character >= 97 && $character <= 122)
+            ) {
+                if (++$alphaCount >= 3) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the number is a valid vanity (alpha) number such as 800 MICROSOFT. A valid vanity
      * number will start with at least 3 digits and will have three or more alpha characters. This
      * does not do region-specific checks - to work out if this number is actually valid for a region,
@@ -1339,12 +1369,18 @@ class PhoneNumberUtil
      */
     public function isAlphaNumber(string $number): bool
     {
-        if (!static::isViablePhoneNumber($number)) {
-            // Number is too short, or doesn't match the basic phone number pattern.
+        if (strlen($number) > static::MAX_INPUT_STRING_LENGTH) {
             return false;
         }
+
+        if (!static::isViablePhoneNumber($number)) {
+            // Number is too short, or doesn't match the basic phone-number pattern.
+            return false;
+        }
+
         $this->maybeStripExtension($number);
-        return preg_match('/' . static::VALID_ALPHA_PHONE_PATTERN . '/' . static::REGEX_FLAGS, $number) === 1;
+
+        return $this->hasAtLeastThreeAlphaChars($number);
     }
 
     /**

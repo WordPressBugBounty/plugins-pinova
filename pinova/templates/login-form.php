@@ -33,7 +33,7 @@ if ( function_exists('nocache_headers') ) {
     <link rel='stylesheet' href='<?php echo PINOVA_URL ?>assets/css/notyf.min.css?ver=<?php echo PINOVA_VERSION; ?>' media='all'/>
 
     <!-- Page script -->
-    <script src="<?php echo PINOVA_URL ?>assets/js/pages/login-form.js?ver=<?php echo PINOVA_VERSION; ?>" type="module"></script>
+    <script src="<?php echo PINOVA_URL ?>assets/js/pages/login-form.min.js?ver=<?php echo PINOVA_VERSION; ?>" type="module"></script>
 </head>
 <body class="pinova-container">
 
@@ -556,7 +556,7 @@ if ( function_exists('nocache_headers') ) {
     </div>
 </section>
 
-<script src="<?php echo PINOVA_URL ?>assets/js/global.js?ver=<?php echo PINOVA_VERSION; ?>"></script>
+<script src="<?php echo PINOVA_URL ?>assets/js/global.min.js?ver=<?php echo PINOVA_VERSION; ?>"></script>
 
 </body>
 </html>

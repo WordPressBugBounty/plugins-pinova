@@ -33,7 +33,7 @@ $nav_arrow_left = '<svg class="md:h-5 h-4 nav-arrow" width="20" height="21" view
 <link rel='stylesheet' href='<?php echo PINOVA_URL ?>assets/css/notyf.min.css?ver=<?php echo PINOVA_VERSION; ?>' media='all'/>
 
 <!-- Page script -->
-<script src="<?php echo PINOVA_URL ?>assets/js/pages/login-form.js?ver=<?php echo PINOVA_VERSION; ?>" type="module"></script>
+<script src="<?php echo PINOVA_URL ?>assets/js/pages/login-form.min.js?ver=<?php echo PINOVA_VERSION; ?>" type="module"></script>
 
 
 <!-- Custom partial styles (override and new styles) -->
@@ -538,4 +538,4 @@ $nav_arrow_left = '<svg class="md:h-5 h-4 nav-arrow" width="20" height="21" view
 		</div>
 	</section>
 </div>
-<script src="<?php echo PINOVA_URL ?>assets/js/global.js?ver=<?php echo PINOVA_VERSION; ?>"></script>
+<script src="<?php echo PINOVA_URL ?>assets/js/global.min.js?ver=<?php echo PINOVA_VERSION; ?>"></script>

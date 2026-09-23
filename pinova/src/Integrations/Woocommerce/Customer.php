@@ -10,6 +10,7 @@ class Customer {
 
 	public function __construct() {
 		add_action( 'pinova/user_registered', [ $this, 'set_new_customer_billing_phone' ], 10, 1 );
+		add_action( 'pinova/user_logged_in', [ $this, 'set_customer_auth_cookie' ], 20, 1 );
 		add_filter( 'woocommerce_data_store_wp_user_read_meta', [ $this, 'get_pinova_mobile' ], 10, 2 );
 	}
 
@@ -20,6 +21,18 @@ class Customer {
 		$mobile = str_replace( '+98', '0', $mobile->get_formatted() );
 
 		update_user_meta( $user_id, 'billing_phone', $mobile );
+	}
+
+	public function set_customer_auth_cookie( int $user_id ) {
+
+		if ( ! WC()->session ) {
+			return;
+		}
+
+		if ( is_callable( [ WC()->session, 'init_session_cookie' ] ) ) {
+			WC()->session->init_session_cookie();
+		}
+
 	}
 
 	public function get_pinova_mobile( array $meta_data, WC_Data $object ): array {

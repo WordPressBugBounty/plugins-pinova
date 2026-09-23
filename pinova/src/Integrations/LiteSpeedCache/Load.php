@@ -25,7 +25,7 @@ class Load {
 			$scripts = ! empty( $scripts ) ? [ $scripts ] : [];
 		}
 
-		$scripts[] = 'pinova/assets/js/global.js';
+		$scripts[] = 'pinova/assets/js/global.min.js';
 		$scripts[] = 'pinova/assets/js/pages/login-form.js';
 		$scripts[] = 'pinova/assets/js/notyf.min.js';
 		$scripts[] = 'login-form-js-extra';

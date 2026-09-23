@@ -562,9 +562,6 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 .pinova-container .top-\[calc\(100\%\+4px\)\] {
   top: calc(100% + 4px);
 }
-.pinova-container .left-20 {
-  left: 5rem;
-}
 .pinova-container .-z-\[1\] {
   z-index: -1;
 }
@@ -996,10 +993,6 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 .pinova-container .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-.pinova-container .bg-red-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
 }
 .pinova-container .bg-opacity-50 {
   --tw-bg-opacity: 0.5;

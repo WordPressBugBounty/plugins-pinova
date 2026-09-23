@@ -218,10 +218,11 @@ class Settings extends \Nabik\Utils\V1\Settings {
 					'desc'  => 'پینوا برای افزایش سرعت، تلفن همراه را در متاها ذخیره نمی‌کند، ولی اگر افزونه‌ای نیاز به کلید متا داشت می‌توانید از کلید متا مجازی pinova_mobile استفاده کنید. دقت کنید که این کلید در دیتابیس وجود خارجی ندارد ولی افزونه ها و قالب‌هایی که با تابع get_user_meta و به صورت استاندارد آن را فراخوانی می کنند، به درستی عمل خواهند کرد.',
 				],
 				[
-					'id'    => 'mobile_possible_meta_keys',
-					'type'  => 'textarea',
-					'label' => 'کلیدهای متا تلفن همراه کاربر',
-					'desc'  => 'کلیدهای متا جدول usermeta که حاوی تلفن همراه هست را در هر خط وارد کنید. کلیدهای digits_phone و digits_phone_no (افزونه دیجیتس) به صورت پیشفرض تعریف شده اند.',
+					'id'      => 'mobile_possible_meta_keys',
+					'type'    => 'textarea',
+					'label'   => 'کلیدهای متا تلفن همراه کاربر',
+					'desc'    => 'کلیدهای متا جدول usermeta که حاوی تلفن همراه هست را در هر خط وارد کنید.',
+					'default' => 'digits_phone' . PHP_EOL . 'digits_phone_no'
 				],
 				[
 					'id'      => 'code_length',

@@ -58,6 +58,12 @@ class UserService {
 			return $user_id;
 		}
 
+		$possible_meta_keys = self::mobile_possible_meta_keys();
+
+		if ( empty( $possible_meta_keys ) ) {
+			return null;
+		}
+
 		$query = sprintf( "SELECT
 										`user_id` 
 									FROM
@@ -69,7 +75,7 @@ class UserService {
 									ORDER BY `user_id` 
 									LIMIT 1;",
 			$wpdb->usermeta,
-			implode( "','", self::mobile_possible_meta_keys() ),
+			implode( "','", $possible_meta_keys ),
 			implode( "','", $possible_formats )
 		);
 
@@ -243,12 +249,6 @@ class UserService {
 		$mobile_possible_meta_keys = Pinova::get_option( 'advanced.mobile_possible_meta_keys' );
 		$mobile_possible_meta_keys = explode( PHP_EOL, strval( $mobile_possible_meta_keys ) );
 		$mobile_possible_meta_keys = array_map( 'trim', $mobile_possible_meta_keys );
-
-		// Digits
-		$mobile_possible_meta_keys[] = 'digits_phone';
-		$mobile_possible_meta_keys[] = 'digits_phone_no';
-
-		$mobile_possible_meta_keys = array_diff( $mobile_possible_meta_keys, [ 'billing_phone', 'shipping_phone' ] );
 
 		$mobile_possible_meta_keys = apply_filters( 'pinova/mobile_possible_meta_keys', $mobile_possible_meta_keys );
 

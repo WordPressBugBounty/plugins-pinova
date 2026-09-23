@@ -2,9 +2,9 @@
 Contributors: nabiknet,mahdiy,persianscript
 Tags: otp,email,sms,login,passwordless
 Requires at least: 6.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -98,6 +98,11 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 4. ایمیل کد تایید
 
 == Changelog ==
+= 1.2.3 - 1405/07/01 =
+* استفاده از فایل های min جهت افزایش سرعت
+* ادغام سبد خرید مهمان پس از ورود به حساب کاربری
+* بستن خودکار پاپ آپ ورود بخش مدیریت وردپرس
+* حل مشکل ویرایش پروفایل کاربران بدون تلفن همراه
 = 1.2.2 - 1405/05/31 =
 * حل مشکل آدرس بازگشت از درگاه در حالت ورود و عضویت اجباری
 * بستن خودکار پنجره ورود در پنل مدیریت

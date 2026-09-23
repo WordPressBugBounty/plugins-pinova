@@ -35,6 +35,8 @@ class Load {
 
 		add_filter( 'get_user_metadata', [ $this, 'get_pinova_mobile' ], 10, 3 );
 		add_action( 'update_option_pinova_general', [ $this, 'sync_user_settings' ], 10, 2 );
+
+		add_action( 'pinova/user_logged_in', [ $this, 'execute_wp_login' ], 10, 1 );
 	}
 
 	public function wp_login_to_pinova_login() {
@@ -77,5 +79,16 @@ class Load {
 			update_option( 'default_role', $value['wordpress_default_role'] );
 		}
 
+	}
+
+	public function execute_wp_login( int $user_id ) {
+		$user = get_user_by( 'id', $user_id );
+
+		if ( ! $user ) {
+
+			return;
+		}
+
+		do_action( 'wp_login', $user->user_login, $user );
 	}
 }

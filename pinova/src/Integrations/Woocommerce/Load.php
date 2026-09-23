@@ -70,8 +70,8 @@ class Load {
 		wp_enqueue_style( 'pinova-notyf', PINOVA_URL . 'assets/css/notyf.min.css', [], PINOVA_VERSION );
 
 		wp_enqueue_script( 'pinova-notyf', PINOVA_URL . 'assets/js/notyf.min.js', [], PINOVA_VERSION );
-		wp_enqueue_script( 'pinova-global', PINOVA_URL . 'assets/js/global.js', [ 'pinova-notyf' ], PINOVA_VERSION );
-		wp_enqueue_script( 'pinova-login-modal', PINOVA_URL . 'assets/js/pages/login-modal.js', [], PINOVA_VERSION );
+		wp_enqueue_script( 'pinova-global', PINOVA_URL . 'assets/js/global.min.js', [ 'pinova-notyf' ], PINOVA_VERSION );
+		wp_enqueue_script( 'pinova-login-modal', PINOVA_URL . 'assets/js/pages/login-modal.min.js', [], PINOVA_VERSION );
 		wp_enqueue_script( 'pinova-woocommerce', PINOVA_URL . 'assets/js/woocommerce/checkout.js', [
 			'jquery',
 			'pinova-login-modal',
@@ -206,7 +206,7 @@ class Load {
 		wp_enqueue_style( 'pinova-notyf', PINOVA_URL . 'assets/css/notyf.min.css', [], PINOVA_VERSION );
 
 		wp_enqueue_script( 'pinova-notyf', PINOVA_URL . 'assets/js/notyf.min.js', [], PINOVA_VERSION );
-		wp_enqueue_script( 'pinova-global', PINOVA_URL . 'assets/js/global.js', [ 'pinova-notyf' ], PINOVA_VERSION );
+		wp_enqueue_script( 'pinova-global', PINOVA_URL . 'assets/js/global.min.js', [ 'pinova-notyf' ], PINOVA_VERSION );
 		wp_enqueue_script( 'pinova-create-customer-modal', PINOVA_URL . 'assets/js/woocommerce/create-customer-modal.js', [], PINOVA_VERSION );
 
 		wp_localize_script( 'pinova-global', 'pinova', [

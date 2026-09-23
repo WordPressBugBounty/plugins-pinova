@@ -39,7 +39,13 @@ class UserProfile {
 	}
 
 	public function new_user_username( string $user_login ): string {
-		return ( new Mobile( $user_login ) )->get_sanitized_username();
+		$mobile = new Mobile( $user_login );
+
+		if ( ! $mobile->is_valid() ) {
+			return $user_login;
+		}
+
+		return $mobile->get_sanitized_username();
 	}
 
 	/**

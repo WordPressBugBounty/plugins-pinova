@@ -3,7 +3,7 @@
  * Plugin Name: پینوا
  * Plugin URI: https://wordpress.org/plugins/pinova
  * Description: ورود و عضویت با تلفن همراه و کد یکبار مصرف، با قابلیت ارسال کد تایید از طریق پیامک، ایمیل، پیام صوتی و پیام رسان بله
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: ووکامرس فارسی
  * Author URI: https://woosupport.ir
  *
@@ -14,13 +14,13 @@
  * Requires PHP: 8.1
  *
  * WC requires at least: 7.6.0
- * WC tested up to: 10.9.4
+ * WC tested up to: 11.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'PINOVA_VERSION' ) ) {
-	define( 'PINOVA_VERSION', '1.2.2' );
+	define( 'PINOVA_VERSION', '1.2.3' );
 }
 
 if ( ! defined( 'PINOVA_DIR' ) ) {
