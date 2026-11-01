@@ -96,7 +96,7 @@ class Version extends \Nabik\Utils\V1\Version {
 
 		Nabik_Net_Database::DB()->statement( "ALTER TABLE `{$wpdb->users}` MODIFY COLUMN `user_email` VARCHAR(100) NOT NULL DEFAULT ''" );
 
-		$site_host = parse_url( site_url(), PHP_URL_HOST );
+		$site_host = parse_url( home_url(), PHP_URL_HOST );
 		$query     = sprintf( "UPDATE `%s` SET `user_email` = '' WHERE `user_email` LIKE 'nomail%%%s'", $wpdb->users, $site_host );
 
 		Nabik_Net_Database::DB()->statement( $query );

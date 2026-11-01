@@ -65,7 +65,7 @@ class VCF {
 
 		$cards     = [];
 		$site_name = get_bloginfo( 'name' );
-		$site_url  = get_site_url();
+		$site_url  = get_home_url();
 
 		foreach ( $users as $user ) {
 

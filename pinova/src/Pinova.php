@@ -80,6 +80,15 @@ class Pinova {
 	 */
 	public static function logout() {
 
+		if ( ! is_user_logged_in() ) {
+			wp_die(
+				sprintf(
+					__( 'در ابتدا وارد شوید. <a href="%s">بازگشت به خانه</a>', 'pinova' ),
+					esc_url( home_url() )
+				)
+			);
+		}
+
 		if ( ! wp_verify_nonce( $_GET['_pinova_nonce'] ?? '', 'logout' ) ) {
 			wp_die( __( 'توکن امنیتی شما معتبر نمی‌باشد.', 'pinova' ) );
 		}
@@ -126,20 +135,20 @@ class Pinova {
 	}
 
 	public static function get_login_url( ?string $back_url = null ): string {
-		$url = site_url( 'login' );
+		$url = home_url( 'login' );
 
 		if ( $back_url ) {
-			$url = add_query_arg( 'back_url', urlencode( $back_url ), $url );
+			$url = add_query_arg( 'back_url', $back_url, $url );
 		}
 
 		return $url;
 	}
 
 	public static function get_logout_url( ?string $back_url = null ): string {
-		$url = site_url( 'logout' );
+		$url = home_url( 'logout' );
 
 		if ( $back_url ) {
-			$url = add_query_arg( 'back_url', urlencode( $back_url ), $url );
+			$url = add_query_arg( 'back_url', $back_url, $url );
 		}
 
 		return wp_nonce_url( $url, 'logout', '_pinova_nonce' );

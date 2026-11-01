@@ -4,7 +4,7 @@ Tags: otp,email,sms,login,passwordless
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -98,6 +98,17 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 4. ایمیل کد تایید
 
 == Changelog ==
+= 1.3.0 - 1405/08/10 =
+* افزودن درگاه ایران پیامک (فراز اس ام اس)
+* افزودن درگاه پیامک کاوه نگار
+* بهبود سازگاری با افزونه perfmatters
+* بهبود سازگاری با افزونه WP Rocket
+* بهبود سیستم تشخیص آی.پی کاربر
+* اعمال مسدود سازی دائمی در دیواره آتش
+* بررسی یکسان بودن دامنه back_url با سایت
+* بهبود نمایش زمان باقی مانده تا انقضا کد تایید
+* افزودن فیلتر pinova/trusted_proxies برای توسعه دهندگان
+* استفاده از تابع home_url بجای site_url
 = 1.2.3 - 1405/07/01 =
 * استفاده از فایل های min جهت افزایش سرعت
 * ادغام سبد خرید مهمان پس از ورود به حساب کاربری

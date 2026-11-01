@@ -62,7 +62,7 @@ async function pinovaApiRequest(url, options = {}) {
         form = false
     } = options;
 
-    if(headers.nonce !== null){
+    if(!headers.nonce){
         headers['X-WP-Nonce'] = pinova.nonce
     }
 

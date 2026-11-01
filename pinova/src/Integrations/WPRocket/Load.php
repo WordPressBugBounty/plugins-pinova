@@ -15,8 +15,10 @@ class Load {
 	}
 
 	public function __construct() {
+		add_filter( 'rocket_exclude_js', [ $this, 'exclude_scripts' ] );
 		add_filter( 'rocket_exclude_defer_js', [ $this, 'exclude_scripts' ] );
 		add_filter( 'rocket_delay_js_exclusions', [ $this, 'exclude_scripts' ] );
+		add_filter( 'rocket_exclude_css', [ $this, 'exclude_styles' ] );
 	}
 
 	public function exclude_scripts( $scripts ) {
@@ -29,5 +31,16 @@ class Load {
 
 
 		return $scripts;
+	}
+
+	public function exclude_styles( $styles ) {
+
+		if ( ! is_array( $styles ) ) {
+			return $styles;
+		}
+
+		$styles[] = '/pinova/assets/css/(.*).css';
+
+		return $styles;
 	}
 }

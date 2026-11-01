@@ -246,7 +246,7 @@ class UserService {
 
 	public static function mobile_possible_meta_keys(): array {
 
-		$mobile_possible_meta_keys = Pinova::get_option( 'advanced.mobile_possible_meta_keys' );
+		$mobile_possible_meta_keys = Pinova::get_option( 'advanced.mobile_possible_meta_keys', 'digits_phone' . PHP_EOL . 'digits_phone_no' );
 		$mobile_possible_meta_keys = explode( PHP_EOL, strval( $mobile_possible_meta_keys ) );
 		$mobile_possible_meta_keys = array_map( 'trim', $mobile_possible_meta_keys );
 

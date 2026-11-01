@@ -13,7 +13,7 @@ class Email implements ChannelInterface {
 
 		$tags = [
 			'{{logo_url}}'           => Pinova::get_option( 'design.logo', admin_url( 'images/wordpress-logo.svg' ) ),
-			'{{site_url}}'           => site_url(),
+			'{{site_url}}'           => home_url(),
 			'{{site_name}}'          => get_bloginfo( 'name' ),
 			'{{expires_in_minutes}}' => JWT::DEFAULT_TTL / 60,
 			'{{code}}'               => $code,

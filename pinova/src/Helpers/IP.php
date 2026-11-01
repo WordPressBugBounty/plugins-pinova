@@ -2,66 +2,33 @@
 
 namespace Pinova\Helpers;
 
+use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
+use Symfony\Component\HttpFoundation\IpUtils;
+use Symfony\Component\HttpFoundation\Request;
+
 class IP {
 
-	public static function get(): string {
+	public static function get(): ?string {
+		$trusted_proxies = apply_filters( 'pinova/trusted_proxies', [] );
 
-		$proxy_headers = [
-			'HTTP_CF_CONNECTING_IP',
-			'CLIENT_IP',
-			'FORWARDED',
-			'FORWARDED_FOR',
-			'FORWARDED_FOR_IP',
-			'HTTP_CLIENT_IP',
-			'HTTP_FORWARDED',
-			'HTTP_FORWARDED_FOR',
-			'HTTP_FORWARDED_FOR_IP',
-			'HTTP_PC_REMOTE_ADDR',
-			'HTTP_PROXY_CONNECTION',
-			'HTTP_VIA',
-			'HTTP_X_FORWARDED',
-			'HTTP_X_FORWARDED_FOR',
-			'HTTP_X_FORWARDED_FOR_IP',
-			'HTTP_X_IMFORWARDS',
-			'HTTP_XROXY_CONNECTION',
-			'VIA',
-			'X_FORWARDED',
-			'X_FORWARDED_FOR',
-			'REMOTE_ADDR',
-		];
+		Request::setTrustedProxies(
+			$trusted_proxies,
+			Request::HEADER_X_FORWARDED_FOR | Request::HEADER_FORWARDED
+		);
 
-		$pattern = "/^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/";
+		$request = Request::createFromGlobals();
 
-		foreach ( $proxy_headers as $proxy_header ) {
-
-			$ip = $_SERVER[ $proxy_header ] ?? null;
-
-			if ( ! self::is_valid( $ip ) ) {
-				continue;
-			}
-
-			if ( preg_match( $pattern, $ip ) ) {
-				return $ip;
-			}
-
-			if ( stristr( ',', $ip ) !== false ) {
-
-				$server            = explode( ',', $ip );
-				$proxy_header_temp = trim( array_shift( $server ) );
-
-				if ( ( $pos_temp = stripos( $proxy_header_temp, ':' ) ) !== false ) {
-					$proxy_header_temp = substr( $proxy_header_temp, 0, $pos_temp );
-				}
-
-				if ( preg_match( $pattern, $proxy_header_temp ) ) {
-					return $proxy_header_temp;
-				}
-
-			}
-
+		try {
+			$ip = $request->getClientIp();
+		} catch ( ConflictingHeadersException $e ) {
+			return null;
 		}
 
-		return '127.0.0.1';
+		if ( ! self::is_valid( $ip ) || IpUtils::checkIp( $ip, $trusted_proxies ) ) {
+			return null;
+		}
+
+		return $ip;
 	}
 
 	public static function is_valid( ?string $ip = '' ): bool {

@@ -57,7 +57,7 @@ if ( function_exists('nocache_headers') ) {
                 <!-- static -->
                 <div class="relative mb-8">
                     <div class="text-center">
-                        <a href="<?php echo get_site_url(); ?>">
+                        <a href="<?php echo get_home_url(); ?>">
                             <img pinova-bind:src="logo" class="block max-h-20 mx-auto">
                         </a>
                     </div>

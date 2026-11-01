@@ -25,11 +25,15 @@ class Load {
 		if ( ! is_array( $scripts ) ) {
 			return $scripts;
 		}
-		
+		$scripts[] = 'pinova/assets/js/alpine.min.js';
+		$scripts[] = 'pinova/assets/js/global.js';
 		$scripts[] = 'pinova/assets/js/global.min.js';
 		$scripts[] = 'pinova/assets/js/pages/login-form.js';
-		$scripts[] = 'login-form-js-extra';
+		$scripts[] = 'pinova/assets/js/pages/login-form.min.js';
+		$scripts[] = 'pinova/assets/js/pages/login-modal.js';
+		$scripts[] = 'pinova/assets/js/pages/login-modal.min.js';
 		$scripts[] = 'pinova/assets/js/notyf.min.js';
+		$scripts[] = 'login-form-js-extra';
 
 		return $scripts;
 	}

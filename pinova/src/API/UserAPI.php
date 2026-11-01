@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Exception;
 use Pinova\Exceptions\SendOTPException;
 use Pinova\Helper;
+use Pinova\Helpers\IP;
 use Pinova\Helpers\JWT;
 use Pinova\Models\OTP;
 use Pinova\Objects\Identifier;
@@ -128,7 +129,7 @@ class UserAPI extends RestAPI {
 
 			$data['has_account'] = true;
 
-			$user = get_user_by( 'id', $user_id );
+			$user = get_user( $user_id );
 
 			$data['has_password'] = ! str_starts_with( $user->user_pass, 'NO_PASSWORD_' );
 
@@ -174,7 +175,7 @@ class UserAPI extends RestAPI {
 
 			if ( $current_otp ) {
 
-				$ttl = $current_otp->expires_at->diffInSeconds();
+				$ttl = intval( Carbon::now()->diffInSeconds( $current_otp->expires_at, false ) );
 
 				if ( $current_otp->isVerified() ) {
 
@@ -257,7 +258,7 @@ class UserAPI extends RestAPI {
 			self::response( false, __( 'اطلاعات ورود معتبر نمی‌باشد.', 'pinova' ) );
 		}
 
-		$user = get_user_by( 'id', $user_id );
+		$user = get_user( $user_id );
 
 		if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
 			self::response( false, __( 'اطلاعات ورود معتبر نمی‌باشد.', 'pinova' ) );
@@ -336,7 +337,7 @@ class UserAPI extends RestAPI {
 			self::response( false, $e->getMessage() );
 		}
 
-		$user = get_user_by( 'id', $user_id );
+		$user = get_user( $user_id );
 
 		$user = check_password_reset_key( $reset_key, $user->user_login );
 
@@ -352,23 +353,6 @@ class UserAPI extends RestAPI {
 	}
 
 	/**
-	 * The middleware to check if user can log out
-	 *
-	 * @param WP_REST_Request $request
-	 *
-	 * @return bool
-	 */
-	public function permission_callback_logout( WP_REST_Request $request ): bool {
-
-		if ( ! is_user_logged_in() ) {
-			self::response( false, __( 'در ابتدا وارد شوید.', 'pinova' ) );
-		}
-
-		return true;
-	}
-
-
-	/**
 	 * The middleware to check if user can access the routes and set initial important values in 'request' param
 	 *
 	 * @param WP_REST_Request $request
@@ -376,6 +360,16 @@ class UserAPI extends RestAPI {
 	 * @return bool
 	 */
 	public function permission_callback( WP_REST_Request $request ): bool {
+
+		if ( null === IP::get() ) {
+			self::response( false, __( 'امکان شناسایی آدرس آی.پی شما وجود ندارد.', 'pinova' ) );
+		}
+
+		$nonce = $request->get_header( 'X-WP-Nonce' );
+
+		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+			self::response( false, __( 'درخواست نامعتبر است. لطفاً صفحه را مجدداً بارگذاری کنید.', 'pinova' ) );
+		}
 
 		if ( is_user_logged_in() ) {
 			self::response( false, __( 'شما وارد شده اید.', 'pinova' ) );
